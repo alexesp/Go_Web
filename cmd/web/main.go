@@ -2,9 +2,12 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 
+	"github.com/alexesp/Go_Web.git/pkg/config"
 	"github.com/alexesp/Go_Web.git/pkg/handlers"
+	"github.com/alexesp/Go_Web.git/pkg/render"
 )
 
 const portNumber = ":8088"
@@ -17,6 +20,16 @@ func main() {
 	// 	}
 	// })
 	//fmt.Println("Test")
+
+	var app config.AppConfig
+
+	tc, err := render.CreateTemplateCache()
+	if err != nil {
+		log.Fatal("cannot create template cache")
+	}
+	app.TemplateCache = tc
+
+	render.NewTemplates(&app)
 	http.HandleFunc("/", handlers.Home)
 	http.HandleFunc("/about", handlers.About)
 	fmt.Println(fmt.Sprintf("Inicio del servidor en el puerto %s", portNumber))
