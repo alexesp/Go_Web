@@ -9,6 +9,7 @@ import (
 	"text/template"
 
 	"github.com/alexesp/Go_Web.git/pkg/config"
+	"github.com/alexesp/Go_Web.git/pkg/models"
 )
 
 var functions = template.FuncMap{}
@@ -20,9 +21,16 @@ func NewTemplates(a *config.AppConfig) {
 }
 
 // Mostrar plantillas usando html/template
-func RenderTemplate(w http.ResponseWriter, tmpl string) {
+func RenderTemplate(w http.ResponseWriter, tmpl string, td *models.TemplateData) {
 
-	tc := app.TemplateCache
+	var tc map[string]*template.Template
+
+	if app.UseCache {
+		tc = app.TemplateCache
+	} else {
+		tc, _ = CreateTemplateCache()
+	}
+	//tc := app.TemplateCache
 	// tc, err := CreateTemplateCache()
 	// if err != nil {
 	// 	log.Fatal(err)
@@ -35,7 +43,7 @@ func RenderTemplate(w http.ResponseWriter, tmpl string) {
 
 	buf := new(bytes.Buffer)
 
-	_ = t.Execute(buf, nil)
+	_ = t.Execute(buf, td)
 
 	_, err := buf.WriteTo(w)
 
@@ -49,7 +57,7 @@ func RenderTemplate(w http.ResponseWriter, tmpl string) {
 func CreateTemplateCache() (map[string]*template.Template, error) {
 	myCache := map[string]*template.Template{}
 
-	pages, err := filepath.Glob(".templates/*.page.tmpl")
+	pages, err := filepath.Glob("./templates/*.page.tmpl")
 	if err != nil {
 		return myCache, err
 	}
@@ -74,5 +82,5 @@ func CreateTemplateCache() (map[string]*template.Template, error) {
 		}
 		myCache[name] = ts
 	}
-	return myCache, nil
+	return myCache, err
 }
