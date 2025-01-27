@@ -2,6 +2,8 @@ package main
 
 import (
 	"net/http"
+
+	"github.com/alexesp/Go_Web.git/pkg/handlers"
 )
 
 const portNumber = ":8088"
@@ -14,7 +16,7 @@ func main() {
 	// 	}
 	// })
 	//fmt.Println("Test")
-	http.HandleFunc("/", Home)
-	http.HandleFunc("/about", About)
+	http.HandleFunc("/", handlers.Home)
+	http.HandleFunc("/about", handlers.About)
 	_ = http.ListenAndServe(portNumber, nil)
 }
