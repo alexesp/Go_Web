@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/alexesp/Go_Web.git/pkg/handlers"
@@ -18,5 +19,6 @@ func main() {
 	//fmt.Println("Test")
 	http.HandleFunc("/", handlers.Home)
 	http.HandleFunc("/about", handlers.About)
+	fmt.Println(fmt.Sprintf("Inicio del servidor en el puerto %s", portNumber))
 	_ = http.ListenAndServe(portNumber, nil)
 }
