@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 package main
 
 import (
@@ -18,12 +17,3 @@ func main() {
 	http.HandleFunc("/", Home)
 	_ = http.ListenAndServe(":8088", nil)
 }
-=======
-package main
-
-import "fmt"
-
-func main() {
-	fmt.Println("Hello Go")
-}
->>>>>>> 949932087601e510f5b21c3337cbc8bb7f6cebe2
